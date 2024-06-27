@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Arr;
+
 class Post
 {
     public static function all()
@@ -25,5 +27,19 @@ class Post
                                facilis nisi qui. Facilis, possimus illum necessitatibus, est praesentium placeat deserunt enim rerum quis magni hic ipsum quas.'
                 ]
             ];
+    }
+
+    public static function find($slug)
+    {
+        // return Arr::first(static::all(), function ($post) use ($slug) {
+        //     return $post['slug'] == $slug;
+        // });
+
+        $post = Arr::first(static::all(), fn ($post) => $post['slug'] == $slug);
+
+        if (!$post) {
+            abort(404);
+        }
+        return $post;
     }
 }
